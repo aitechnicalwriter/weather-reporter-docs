@@ -1,0 +1,3 @@
+# This project requires the requests library for API communication.
+# Reference: https://pypi.org/project/requests/
+requests==2.31.0
