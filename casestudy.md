@@ -1,21 +1,33 @@
-# Case Study: Documentation Refactor for Weather Reporter
+# Case Study: Technical Documentation Refactor
 
-**Project Overview**
-I identified an unmaintained, archived Python script within a [beginner projects repository](https://github.com/Mrinank-Bhowmick/python-beginner-projects/tree/main/projects/Weather) and developed a complete technical documentation set to make it production-ready.
+## 📌 Project Overview
+I identified an archived, unmaintained Python script and transformed it into a professional, production-ready project by developing a comprehensive technical documentation suite. This project demonstrates my ability to analyze legacy code, manage dependencies, and communicate complex technical logic to both users and developers.
 
-**The Challenge**
-The original project lacked setup instructions, dependency management, and technical explanations of its API logic. This made the script difficult for new developers to use or contribute to effectively.
+## 🛠️ The Challenge
+The original repository lacked essential guidance for new users, including:
+* No installation or configuration instructions.
+* Missing dependency management (`requirements.txt`).
+* Unclear technical logic regarding API data transformation.
+* No framework for community contribution.
 
-**My Solution**
-I performed a context retrieval and logic synthesis of the code to create:
+## My Process & Solutions
 
-* **A Standardized README**: Included a "Quick Start" guide and feature breakdown.
-* **Dependency Management**: Created a `requirements.txt` to enable one-command environment setup.
-* **Technical API Reference**: Documented the JSON parsing paths and the mathematical conversion from Kelvin to Celsius ().
-* **Contribution Guidelines**: Established a professional workflow for theoretical feature enhancements like unit toggling and forecast integration.
+### 1. Code Analysis & Context Retrieval
+I performed a deep dive into the `main.py` source code to understand the underlying logic. I identified that the [OpenWeatherMap API](https://openweathermap.org/api) returns temperatures in Kelvin, necessitating a manual conversion to Celsius ($C = K - 273.15$). I documented this specifically in the [API Reference](api-reference.md) to assist future developers.
 
-**Key Skills Demonstrated**
+### 2. User-Centric Design (The README)
+I restructured the [readme.md](readme.md) to prioritize a "Quick Start" flow, ensuring a new user could go from cloning the repo to running their first weather report in under two minutes.
 
-* Technical writing for developers (Markdown & LaTeX).
-* Code analysis (Python, JSON parsing).
-* Environment management (venv & pip).
+### 3. Dependency & Environment Management
+To ensure a consistent "it works on my machine" experience, I:
+* Generated a strictly versioned `requirements.txt`.
+* Documented the `venv` (virtual environment) setup process to prevent local library conflicts.
+
+### 4. Establishing a Contribution Framework
+By creating [contributing.md](contributing.md), I established guardrails for the project.
+
+## Key Skills Demonstrated
+* **Technical Writing:** Creating clear, scannable Markdown and LaTeX-based technical documentation.
+* **API Documentation:** Explaining endpoints, request parameters, and JSON parsing paths.
+* **Developer Workflow:** Git version control, dependency management, and virtual environments.
+* **Information Architecture:** Organizing a documentation set into a logical, easy-to-navigate hierarchy.
