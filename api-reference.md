@@ -1,43 +1,63 @@
-# API Reference
+# API Reference: Weather Reporter
 
-This document provides a technical overview of the API integration used in the Weather Reporter script.
+This section overviews the internal logic and the external API for the Weather Reporter CLI.
 
-## Endpoint Details
+## External API Integration
 
-The application interfaces with the **OpenWeatherMap Data API** to retrieve current weather conditions.
+To obtain current weather data we use the **Current Weather Data** endpoint of the [OpenWeatherMap API](https://openweathermap.org/api).
 
-* **Base URL:** `http://api.openweathermap.org/data/2.5/weather`
-* **Method:** `GET`
-* **Authentication:** API Key (passed as `appid`)
+* **Base URL:** http://api.openweathermap.org/data/2.5/weather
+* **Method:** GET
+* **Authentication:** Using an API Key passed via the `appid` query parameter.
 
-## Request Parameters
+### Request Parameters
+| Parameter | Type | Description |
+| :--- | :--- | :--- |
+| `appid` | String | **Required.** Your OpenWeatherMap API Key. |
+| `q` | String | **Required.** The name of the city you want to search (e.g., "London") |
 
-The script constructs a request using the following parameters:
+---
 
-| Parameter | Type   | Description                                      |
-| :---      | :---   | :---                                             |
-| `appid`   | String | Required. Your unique OpenWeatherMap API key.     |
-| `q`       | String | Required. The city name provided by user input.   |
+## Functions Inside Main.py
 
-## Data Extraction & Logic
+The following functions have been defined inside `main.py` to manage the life cycle of the data from request to output.
 
-The script processes a JSON response and extracts specific keys to display to the user.
+### `get_weather(city, api_key)`
+Get the raw weather data for a certain city.
 
-### 1. Weather Description
-* **Path:** `data["weather"][0]["description"]`
-* **Description:** A human-readable summary of current conditions (e.g., "scattered clouds").
+* **Parameters:**
+* `city (str)`: The name of the city that is being queried.
+* `api_key (str)`: A valid OpenWeatherMap API Key.
+* **Returns:**
+* `dict`: A JSON formatted dictionary with information about the weather.
+* `None`: Returns when the request failed (for example, 404 error or network timeout).
 
-### 2. Temperature Conversion
-The API returns the temperature in **Kelvin**. The script performs a manual conversion to **Celsius** before display.
+### `convert_kelvin_to_celsius(kelvin)`
+Utility function to convert the temperature unit for better reading.
 
-**Formula:**
-$$Celsius = Kelvin - 273.15$$
+* **Logic:** The API has a default setting to return the temperature in Kelvin. To get it into Celsius we can simply apply the following conversion formula:
+$$C = K - 273.15$$
+* **Arguments:**
+* `kelvin (float)`: The temperature that was provided by the API.
+* **Returns:**
+* `float`: Temperature in Celsius with a precision of two decimal places.
 
-* **Path:** `data["main"]["temp"]`
-* **Processing:** The result is rounded to two decimal places for readability.
+---
+
+## Data Mapping
+
+The script will take the most relevant parts from the big JSON response to show a simple view to the user.
+
+| Display Name | Source Path | Example Value |
+| :--- | :--- | :--- |
+| **Condition** | `data["weather"][0]["description"]` | "clear sky" |
+| **Temperature** | `data["main"]["temp"]` | 293.15 (Kelvin) |
+
+---
 
 ## Error Handling
 
-The script includes basic validation logic:
-1.  **Status Code Check:** It verifies if the response code is `200` (OK).
-2.  **Fallback:** If any other code is returned (e.g., `404` for invalid city or `401` for invalid API key), the script prints `"An error occurred."` to the console.
+The application handles the following potential error states:
+
+* **Invalid City:** In case of a 404 Not Found, the script will catch the exception and notify the user instead of crashing.
+* **Network Problems:** With the help of `requests.exceptions.RequestException` we will be able to catch timeouts and/or connection problems in a graceful way.
