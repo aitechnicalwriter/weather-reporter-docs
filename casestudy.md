@@ -1,4 +1,4 @@
-# Case Study: Technical Documentation Refactor
+# Case Study: Source Code Analysis for Weather Reporter
 
 ## Project Summary
 This project is an example of how I can create documentation based solely on code. I found this [un-maintained, un-documented python project](https://github.com/Mrinank-Bhowmick/python-beginner-projects/tree/main/projects/Weather) and created a complete set of docs for it. 
